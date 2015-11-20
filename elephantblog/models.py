@@ -10,7 +10,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 from feincms import translations
-from feincms.management.checker import check_database_schema
 from feincms.models import Base
 from feincms.module.mixins import ContentModelMixin
 from feincms.utils.managers import ActiveAwareContentManagerMixin
@@ -111,7 +110,7 @@ class Entry(Base, ContentModelMixin):
 
     categories = models.ManyToManyField(
         Category, verbose_name=_('categories'),
-        related_name='blogentries', null=True, blank=True)
+        related_name='blogentries', blank=True)
 
     objects = EntryManager()
 
@@ -153,5 +152,3 @@ class Entry(Base, ContentModelMixin):
         from .modeladmins import EntryAdmin
         register_fn(cls, EntryAdmin)
 
-
-signals.post_syncdb.connect(check_database_schema(Entry, __name__), weak=False)
